@@ -522,11 +522,11 @@ class OutscraperClient(object):
 
         return self._request('GET', '/google-play/reviews', wait_async=wait_async, async_request=async_request, params=params)
 
-    def contacts_and_leads(self, query: Union[list, str], preferred_contacts: Optional[Union[list, str]] = None, contacts_per_company: int = 3,
+    def leads_and_contacts(self, query: Union[list, str], preferred_contacts: Optional[Union[list, str]] = None, contacts_per_company: int = 3,
        emails_per_contact: int = 1, skip_contacts: int = 0, general_emails: bool = False, fields: Union[list, str] = None,
        async_request: bool = False, ui: bool = False, webhook: Optional[str] = None) -> list:
         '''
-            Contacts and Leads Scraper
+            Leads and Contacts Scraper
 
             Returns emails, social links, phones, and other contacts from websites based on domain names, URLs.
             It supports batching by sending arrays with up to 250 queries.
@@ -560,7 +560,7 @@ class OutscraperClient(object):
                 Returns:
                     list|dict: JSON result
 
-            See: https://app.outscraper.com/api-docs#tag/Email-Related/paths/~1contacts-and-leads/get
+            See: https://app.outscraper.com/api-docs#tag/Email-Related/paths/~1leads-and-contacts/get
         '''
 
         queries = as_list(query)
@@ -578,7 +578,28 @@ class OutscraperClient(object):
             'webhook': webhook
         }
 
-        return self._request('GET', '/contacts-and-leads', wait_async=wait_async, async_request=async_request, params=params)
+        return self._request('GET', '/leads-and-contacts', wait_async=wait_async, async_request=async_request, params=params)
+
+    def contacts_and_leads(self, query: Union[list, str], preferred_contacts: Optional[Union[list, str]] = None, contacts_per_company: int = 3,
+       emails_per_contact: int = 1, skip_contacts: int = 0, general_emails: bool = False, fields: Union[list, str] = None,
+       async_request: bool = False, ui: bool = False, webhook: Optional[str] = None) -> list:
+        '''
+            Contacts and Leads Scraper
+            Backward-compatible alias for leads_and_contacts.
+        '''
+
+        return self.leads_and_contacts(
+            query=query,
+            preferred_contacts=preferred_contacts,
+            contacts_per_company=contacts_per_company,
+            emails_per_contact=emails_per_contact,
+            skip_contacts=skip_contacts,
+            general_emails=general_emails,
+            fields=fields,
+            async_request=async_request,
+            ui=ui,
+            webhook=webhook,
+        )
 
     def emails_and_contacts(self, query: Union[list, str], fields: Union[list, str] = None) -> list:
         '''
